@@ -1,0 +1,33 @@
+/* Error message styling */
+.error-message {
+    color: #F31260;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
+  /* Label styling */
+  .label {
+    font-size: 13px;
+    color: black;
+  }
+  
+  .label-error {
+    color: #F31260 !important;
+  }
+
+  .select-error {
+    border-color: #F31260 !important; /* Make border red when there’s an error */
+  }
+  
+  /* Dropdown styling */
+  .select-container {
+    border: 2px solid #e5e5e8;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .select-container .select__placeholder {
+    font-size: 14px;
+  }
+  
+  

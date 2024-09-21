@@ -1,0 +1,17 @@
+.menu-item {
+    background-color: #fff;
+    border: none;
+    border-radius: 0.4rem;
+    color: black;
+    cursor: pointer;
+    height: 1.75rem;
+    margin-right: 0.25rem;
+    padding: 0.25rem;
+    width: 1.75rem;
+  
+  
+    &.is-active {
+      border: 1px solid #D9E1EC;
+    }
+  }
+  

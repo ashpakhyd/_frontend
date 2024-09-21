@@ -1,0 +1,47 @@
+.customTable table {
+  border: 2px solid #d7dbec;
+  border-radius: 10px;
+  border-collapse: separate;
+  border-spacing: 0; /* Merge adjacent borders */
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.customTable {
+  padding: 20px 10px 20px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.customTable > div > div {
+  padding: 0;
+  padding-right: 10px;
+}
+.customTable thead th {
+  background-color: #ebebeb;
+  padding: 12px; /* Consistent padding */
+}
+
+.customTable thead th:first-child {
+  border-bottom-left-radius: 0;
+}
+
+.customTable thead th:last-child {
+  border-bottom-right-radius: 0;
+}
+
+.customTable tbody tr td {
+  border-top: 2px solid #d7dbec;
+  padding: 12px; /* Consistent padding */
+}
+
+.customTable tbody tr:first-child td {
+  border-top: none; /* Remove top border from the first row cells */
+}
+
+.customTable tr:not([tabindex="-1"][aria-hidden="true"]) {
+  display: table-row;
+}
+
+.customTable tr[tabindex="-1"][aria-hidden="true"] {
+  display: none;
+}
