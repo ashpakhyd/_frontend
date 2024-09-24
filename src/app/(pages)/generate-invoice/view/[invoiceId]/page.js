@@ -165,7 +165,7 @@ const ViewInvoice = ({ params }) => {
                 <th className="border p-2">Price (₹)</th>
                 <th className="border p-2">Total (₹)</th>
               </tr>
-            </thead> 
+            </thead>  
             <tbody>
               {invoice?.products.map((product, index) => (
                 <tr key={product._id} className="bg-light-blue">
