@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Airport Appliances CMS",
-  description: "Airport Appliances CMS",
+  title: "SHAIKH UNITED GROUP",
+  description: "Shine like a star",
   icons: "./favicon.png",
 };
 

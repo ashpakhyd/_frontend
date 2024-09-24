@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { SidebarItem } from "./sidebar-item";
 import { SidebarMenu } from "./sidebar-menu";
 import { Sidebar } from "./sidebar.styles";
-import Logo from "@/public/logo.webp";
+import Logo from "@/../public/logo.webp";
 import { SidebarRoutes } from "./routes";
 import ContentIcon from "../icons/sidebar/Content";
 import DynamicImage from "../commonComponents/DynamicImages/DynamicImage";
@@ -37,7 +37,7 @@ export const SidebarWrapper = ({ handleSidebar }) => {
         <div className={Sidebar.Header()}>
           <div className="w-full">
             <div className="cursor-pointer">
-              <div className="flex items-center gap-2">{company.logo}</div>
+              <div className="flex items-center gap-2 text-sm font-semibold border rounded-md	px-2 bg-gray-1 py-2">SHAIKH UNITED GROUP</div>
             </div>
           </div>{" "}
         </div>

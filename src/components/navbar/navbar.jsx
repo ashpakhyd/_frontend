@@ -65,7 +65,7 @@ export const NavbarWrapper = ({ children }) => {
             justify="center"
             className=" data-[justify=end]:flex-grow-1"
           >
-            <div className="font-semibold text-sm">Airport Appliances</div>
+            <div className="font-semibold text-sm">Ashfaq Shaikh</div>
             {/* <NotificationsDropdown /> */}
             <UserDropdown />
           </NavbarContent>

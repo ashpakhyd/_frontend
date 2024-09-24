@@ -1,163 +1,87 @@
-import DashboardIcon from "@/icons/sidebar/Dashboard";
-import OrderIcon from "@/icons/sidebar/Order";
-import CustomersIcon from "@/icons/sidebar/Customers";
-import ContentIcon from "@/icons/sidebar/Content";
-import AnalyticsIcon from "@/icons/sidebar/Analytics";
-import DiscountsIcon from "@/icons/sidebar/Discounts";
-import ProductsIcon from "@/icons/sidebar/Products";
-import Users from "../icons/sidebar/Users";
-import Coupons from "../icons/sidebar/Coupons";
-import StaticPages from "../icons/sidebar/StaticPages";
-import DeliveryRoutes from "../icons/sidebar/DeliveryRoutes";
-import OpenBox from "../icons/sidebar/OpenBox";
-import GobaSettings from "../icons/sidebar/GlobalSettings";
+import { FaTachometerAlt, FaBoxOpen, FaWarehouse, FaCogs, FaShippingFast, FaUsers, FaTruckLoading, FaFileInvoiceDollar, FaChartLine, FaUserShield, FaTools } from "react-icons/fa";
 
 export const SidebarRoutes = [
   {
-    title: "Orders",
-    icon: <OrderIcon />,
+    title: "DASHBOARD",
+    icon: <FaTachometerAlt />,
+    path: "/dashboard",
+  },
+  {
+    title: "ORDERS",
+    icon: <FaBoxOpen />,
     path: "/orders",
-    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
+    query: { limit: 10, page: 1, sortField: "orderDate", sortOrder: "DESC" },
+    isDropdown: false,
   },
   {
-    title: "Products",
-    icon: <ProductsIcon />,
-    path: "/products",
-    query: { limit: 10, page: 1 },
+    title: "INVENTORY",
+    icon: <FaWarehouse />,
+    path: "/inventory",
     isDropdown: true,
     children: [
       {
-        title: "Categories",
-        path: "/categories",
-        query: { limit: 10, page: 1 },
-      },
-      { title: "Brands", path: "/brands", query: { limit: 10, page: 1 } },
-      { title: "Bundles", path: "/bundles", query: { limit: 10, page: 1 } },
-    ],
-  },
-  {
-    title: "Open Box",
-    icon: <OpenBox />,
-    path: "/openbox",
-    query: { limit: 10, page: 1 },
-    isDropdown: true,
-    children: [
-      {
-        title: "Store Management",
-        path: "/store",
-        query: { limit: 10, page: 1 },
+        title: "Raw Materials",
+        path: "/inventory/raw-materials",
       },
       {
-        title: "Conditions Management",
-        path: "/conditions",
-        query: { limit: 10, page: 1 },
-      },
-      { title: "Open Box", path: "/openbox", query: { limit: 10, page: 1 } },
-      {
-        title: "Filters",
-        path: "/filters",
-        query: { limit: 10, page: 1 },
+        title: "Finished Goods",
+        path: "/inventory/finished-goods",
       },
     ],
   },
   {
-    title: "Customers",
-    icon: <CustomersIcon />,
+    title: "PRODUCTION",
+    icon: <FaCogs />,
+    path: "/production",
+    query: { limit: 10, page: 1, sortField: "startDate", sortOrder: "ASC" },
+    isDropdown: false,
+  },
+  {
+    title: "DISPATCH & LOGISTICS",
+    icon: <FaShippingFast />,
+    path: "/dispatch",
+  },
+  {
+    title: "CUSTOMERS",
+    icon: <FaUsers />,
     path: "/customers",
-    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
   },
   {
-    title: "Coupons",
-    icon: <Coupons />,
-    path: "/coupons",
-    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
+    title: "SUPPLIERS",
+    icon: <FaTruckLoading />,
+    path: "/suppliers",
   },
   {
-    title: "Discounts",
-    icon: <DiscountsIcon />,
-    path: "/discount",
+    title: "PRODUCTS",
+    icon: <FaCogs />,
+    path: "/products",
+  },
+  {
+    title: "BILLING",
+    icon: <FaFileInvoiceDollar />,
+    path: "/generate-invoice",
     query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
     isDropdown: true,
     children: [
       {
-        title: "Add On Funtionality",
-        // icon: <DiscountsIcon />,
-        path: "/addons",
-        query: { limit: 10, page: 1 },
-      },
-      {
-        title: "Warranty  Funtionality",
-        // icon: <DiscountsIcon />,
-        path: "/warranty",
-        query: { limit: 10, page: 1 },
+        title: "Generate Invoice",
+        path: "/generate-invoice/create",
       },
     ],
   },
   {
-    title: "Delivery Routes",
-    icon: <DeliveryRoutes />,
-    path: "/deliveryroute",
-    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
-    isDropdown: true,
-    children: [
-      {
-        title: "Route Management",
-        // icon: <DiscountsIcon />,
-        path: "/routemanagement",
-        query: { limit: 10, page: 1 },
-      },
-      {
-        title: "Product Assignment",
-        // icon: <DiscountsIcon />,
-        path: "/productassignment",
-        query: { limit: 10, page: 1 },
-      },
-      {
-        title: "Delivery Methods",
-        // icon: <DiscountsIcon />,
-        path: "/deliverymethods",
-        query: { limit: 10, page: 1 },
-      },
-      {
-        title: "Inventory Management",
-        // icon: <DiscountsIcon />,
-        path: "/inventorymanagement",
-        query: { limit: 10, page: 1 },
-      },
-      {
-        title: "Analytics",
-        // icon: <DiscountsIcon />,
-        path: "/analytics",
-        query: { limit: 10, page: 1 },
-      },
-    ],
+    title: "REPORTS",
+    icon: <FaChartLine />,
+    path: "/reports",
   },
   {
-    title: "Static Pages",
-    icon: <StaticPages />,
-    path: "/managestaticpages",
-    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
-    isDropdown: true,
-    children: [
-      {
-        title: "Terms & Condition",
-        // icon: <DiscountsIcon />,
-        path: "/managestaticpages",
-        query: { limit: 10, page: 1 },
-      },
-     
-    ],
+    title: "USER MANAGEMENT",
+    icon: <FaUserShield />,
+    path: "/user-management",
   },
   {
-    title: "Users",
-    icon: <Users />,
-    path: "/users",
-    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
-  },
-  {
-    title: "Global Settings",
-    icon: <GobaSettings />,
-    path: "/globalsettings",
-    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
+    title: "SETTINGS",
+    icon: <FaTools />,
+    path: "/settings",
   },
 ];

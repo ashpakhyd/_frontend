@@ -1,7 +1,7 @@
-import SearchBarIcon from "@/icons/SearchBarIcon";
-import CustomInput from "../TextInput/TextInput";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
+// import { useDebouncedCallback } from "use-debounce";
+import CustomInput from "../TextInput/TextInput";
+import SearchBarIcon from "@/components/icons/SearchBarIcon";
 
 const SearchBar = () => {
   const searchParams = useSearchParams();

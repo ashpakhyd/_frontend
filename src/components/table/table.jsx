@@ -1,6 +1,4 @@
 "use client";
-import Loader from "@/commonComponents/Loader/Loader";
-import NoDataFound from "@/icons/NoDataFound";
 import { useQueryParams } from "@/utils/useQueryParams";
 import {
   Table,
@@ -12,6 +10,8 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./CustomTable.module.css";
+import Loader from "../commonComponents/Loader/Loader";
+import NoDataFound from "../icons/NoDataFound";
 
 const shortSortKeys = {
   DESC: "descending",
@@ -91,7 +91,7 @@ const TableWrapper = ({
           items={data}
         >
           {(item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item._id}>
               {headerColumns.map((column) => (
                 <TableCell key={column.uid}>
                   {renderCell ? renderCell(item, column.uid) : item[column.uid]}

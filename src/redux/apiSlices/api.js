@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://gb4prqkcua.execute-api.us-west-1.amazonaws.com/dev",
+  baseUrl: "http://localhost:5000/",
   // prepareHeaders: (headers, { getState }) => {
   //   const { token } = getState().auth;
   //   const getToken = getAccessToken();

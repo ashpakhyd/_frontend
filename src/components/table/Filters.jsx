@@ -1,7 +1,7 @@
-import CustomButton from "@/commonComponents/Button/Button";
-import SearchBar from "@/commonComponents/SearchBar/SearchBar";
 import { useQueryParams } from "@/utils/useQueryParams";
 import { useState } from "react";
+import CustomButton from "../commonComponents/Button/Button";
+import SearchBar from "../commonComponents/SearchBar/SearchBar";
 
 const Filters = () => {
   const { setQueryParams } = useQueryParams();
