@@ -89,59 +89,50 @@ const ViewInvoice = ({ params }) => {
   const invoiceUrl = `https://shaikhconnect.com/invoice/${invoice?._id}`;
   return (
     <>
-      <div className="container mx-auto p-6" id="invoice">
+      <div
+        className="container mx-auto p-6"
+        id="invoice"
+        style={{ width: "794px" }}
+      >
         {/* Header */}
-        <Container>
-          <div>
-           <div className="flex justify-between items-center">
-  {/* Company Info Centered */}
-  <div className="h-[15vh] flex flex-col justify-center items-center flex-grow">
-    <h1 className="text-4xl font-bold">SHAIKH UNITED GROUP</h1>
-    <p className="text-lg italic mt-2">ALL TYPES OF WOOD & FURNITURE SUPPLIERS</p>
-  </div>
-  
-  {/* QR Code on the Right */}
-  <div className="text-right">
-    <QRCode
-      value={invoiceUrl}
-      size={128}
-      logoImage="/logo.png" // Optional logo
-      logoWidth={32}
-      logoHeight={32}
-    />
-  </div>
-</div>
-
-            <div className="flex justify-between items-center ">
-              <p className="text-sm">Contact: 9881649776</p>
-              <p className="text-sm">Email: SUGroupEmail@gmail.com</p>
-              <p className="text-sm">Website: www.SUGroups.com</p>
-            </div>
-          </div>
-        </Container>
 
         <Container>
-          <div className="flex justify-between">
+          <Container className="">
             <div>
-              <h3 className="font-bold text-lg">Bill From:</h3>
-              <p>{invoice?.billFrom?.name}</p>
-              <p>{invoice?.billFrom?.companyName}</p>
-              <p>{invoice?.billFrom?.address}</p>
-              <p>
-                {invoice?.billFrom?.dist}, {invoice?.billFrom?.state} -{" "}
-                {invoice?.billFrom?.pinCode}
-              </p>
-              <p>GSTIN: 27DTBPA7699A1ZP</p>
+              <div className="flex justify-between items-center">
+                {/* Logo on the Left */}
+                <div className="flex items-center">
+                  <img src="/favicon.png" alt="Logo" className="h-full" />
+                </div>
+
+                {/* Company Info Centered */}
+                <div className="h-[8vh] flex flex-col justify-center items-center flex-grow">
+                  <h1 className="text-4xl font-bold">SHAIKH UNITED GROUP</h1>
+                  <p className="text-lg italic mt-2">
+                    ALL TYPES OF WOOD & FURNITURE SUPPLIERS
+                  </p>
+                </div>
+
+                {/* QR Code on the Right */}
+                {/* Uncomment and modify the following section if you need to display a QR code as well */}
+                {/* <div className="text-right">
+      <QRCode
+        value={invoiceUrl}
+        size={128}
+        logoImage="/logo.png" // Optional logo
+        logoWidth={32}
+        logoHeight={32}
+      />
+    </div> */}
+              </div>
             </div>
+          </Container>
+          <div className="flex justify-between my-6 border-b border-gray-1">
             <div>
-              <h3 className="font-bold text-lg">Bill To:</h3>
-              <p>{invoice?.clientName}</p>
-              <p>{invoice?.companyName}</p>
-              <p>{invoice?.companyAddress}</p>
-              <p>
-                {invoice?.street}, {invoice?.pinCode}
-              </p>
-              <p>GSTIN: 36ACUFS2391E1ZP</p>
+              <h3 className="text-lg font-bold">Vehical Details:</h3>
+              <p>Vehical number: {invoice?.truckNumber}</p>
+              <p>Driver Name: {invoice?.driverName}</p>
+              <p>E-way number: {invoice?.ewayBillNumber}</p>
             </div>
             <div>
               <h2 className="text-2xl font-bold">Invoice</h2>
@@ -153,25 +144,55 @@ const ViewInvoice = ({ params }) => {
               <p>Due Date: {new Date(invoice?.dueDate).toLocaleDateString()}</p>
             </div>
           </div>
+          <div className="flex justify-between">
+            <div>
+              <h3 className="font-bold text-lg">Bill From:</h3>
+              <p>{invoice?.billFrom?.name}</p>
+              <p>{invoice?.billFrom?.companyName}</p>
+              <p>Office: 1st floor, Happy house</p>
+              <p>Tq. Gangakhed Dist. Parbhani</p>
+              <p>Maharashtra-431514</p>
+              <p>
+                {invoice?.billFrom?.state} - {invoice?.billFrom?.pinCode}
+              </p>
+              <p>GSTIN: 27DTBPA7699A1ZP</p>
+            </div>
+            <div>
+              <h3 className="font-bold text-lg">Bill To:</h3>
+              <p>{invoice?.clientName}</p>
+              <p>{invoice?.companyName}</p>
+              <p>{invoice?.companyAddress}</p>
+              <p>
+                {invoice?.street}, {invoice?.pinCode}
+              </p>
+              <p>GSTIN: {invoice?.gstin}</p>
+            </div>
+          </div>
 
           <h3 className="font-bold text-lg mt-10 mb-2">Product Details:</h3>
           <table className="w-full border-collapse bg-white mb-10 border border-gray-2 rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-gray-2 text-white">
-              <th className="border p-2">S.No</th> {/* Serial Number Header */}
+                <th className="border p-2">S.No</th>{" "}
+                {/* Serial Number Header */}
                 <th className="border p-2">HSN Code</th>
                 <th className="border p-2">Description</th>
                 <th className="border p-2">Qty in CBM</th>
                 <th className="border p-2">Price (₹)</th>
                 <th className="border p-2">Total (₹)</th>
               </tr>
-            </thead>  
+            </thead>
             <tbody>
               {invoice?.products.map((product, index) => (
                 <tr key={product._id} className="bg-light-blue">
-                  <td className="border border-gray-1 p-2">{index + 1}</td> {/* Serial Number */}
-                  <td className="border border-gray-1 p-2">{product.hsnCode}</td>
-                  <td className="border border-gray-1 p-2">{product.productDescription}</td>
+                  <td className="border border-gray-1 p-2">{index + 1}</td>{" "}
+                  {/* Serial Number */}
+                  <td className="border border-gray-1 p-2">
+                    {product.hsnCode}
+                  </td>
+                  <td className="border border-gray-1 p-2">
+                    {product.productDescription}
+                  </td>
                   <td className="border border-gray-1 p-2">{product.qty}</td>
                   <td className="border border-gray-1 p-2">{product.price}</td>
                   <td className="border border-gray-1 p-2">
@@ -179,11 +200,26 @@ const ViewInvoice = ({ params }) => {
                   </td>
                 </tr>
               ))}
+              <tr className="bg-light-blue">
+                <td className="border border-gray-1 p-2">&nbsp;</td>
+                <td className="border border-gray-1 p-2">&nbsp;</td>
+                <td className="border border-gray-1 p-2">&nbsp;</td>
+                <td className="border border-gray-1 p-2">&nbsp;</td>
+                <td className="border border-gray-1 p-2">&nbsp;</td>
+                <td className="border border-gray-1 p-2">&nbsp;</td>
+              </tr>
             </tbody>
           </table>
 
           {/* Subtotal, GST, and Total Calculation */}
-          <div className="flex justify-end my-10">
+          <div className="flex justify-between my-10">
+            <div>
+              <h3 className="text-lg font-bold">Bank Details:</h3>
+              <p>Beneficiary Name: SHAIKH UNITED GROUP</p>
+              <p>Account Number: 50200052201980</p>
+              <p>Bank Name & Branch: HDFC / GANGAKHED</p>
+              <p>IFSC Code: HDFC0003015</p>
+            </div>
             <div className="w-1/3">
               <div className="flex justify-between">
                 <p className="font-bold">Subtotal:</p>
@@ -200,22 +236,14 @@ const ViewInvoice = ({ params }) => {
             </div>
           </div>
 
-          <div className="flex justify-between my-10">
-            <div>
-              <h3 className="text-lg font-bold">Vehical Details:</h3>
-              <p>Vehical number: {invoice?.truckNumber}</p>
-              <p>Driver Name: {invoice?.driverName}</p>
-              <p>E-way number: {invoice?.ewayBillNumber}</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold">Bank Details:</h3>
-              <p>Beneficiary Name: SHAIKH UNITED GROUP</p>
-              <p>Account Number: 50200052201980</p>
-              <p>Bank Name & Branch: HDFC / GANGAKHED</p>
-              <p>IFSC Code: HDFC0003015</p>
-            </div>
-          </div>
+          <div className="flex justify-between my-10"></div>
           <div className="mb-6">
+            <div className="flex flex-col text-gray-2 my-2">
+              <p className="text-sm">Contact: 9881649776</p>
+              <p className="text-sm">Contact: 9881649776</p>
+              <p className="text-sm">Email: SUGroupEmail@gmail.com</p>
+              <p className="text-sm">Website: www.SUGroups.com</p>
+            </div>
             <h3 className="text-lg font-bold">Terms and Conditions:</h3>
             <p>
               1. Payment is due within 15 days of the invoice date unless

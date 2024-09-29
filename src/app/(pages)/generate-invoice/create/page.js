@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import InvoiceFormWrapper from "../@components/InvoiceFormWrapper";
-import { useCreateInvoiceMutation } from "@/redux/apiSlices/invoiceApi";
+import { useCreateInvoiceMutation, useValidateGSTINQuery } from "@/redux/apiSlices/invoiceApi";
 
 const DeliveryRoutes = () => {
   const router = useRouter();
@@ -51,7 +51,8 @@ const DeliveryRoutes = () => {
 
   // #4 CREATE INVOICE API: POST METHOD
   const [createinvoice, { data, isLoading, isSuccess }] = useCreateInvoiceMutation();
-
+  const { data: gstData, error, isLoading: gstLoading } = useValidateGSTINQuery("36AAECR3435M1Z4");
+console.log("gatData", gstData)
   // #5 ROUTING PAGE WHEN INVOICE CREATED
   useEffect(() => {
     if (isSuccess) {

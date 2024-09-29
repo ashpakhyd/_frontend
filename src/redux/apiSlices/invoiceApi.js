@@ -35,6 +35,9 @@ export const invoicesApiSlice = api.injectEndpoints({
       }),
       invalidatesTags: ["invoices"],
     }),
+    validateGSTIN: builder.query({
+      query: (gstin) => `/api/validateGstin?gstin=${gstin}`, 
+    }),
   }),
 });
 
@@ -43,5 +46,7 @@ export const {
   useCreateInvoiceMutation,
   useGetInvoiceByIdQuery,
   useUpdateInvoiceMutation,
-  useDeleteInvoiceMutation
+  useDeleteInvoiceMutation,
+  useValidateGSTINQuery
+  
 } = invoicesApiSlice;

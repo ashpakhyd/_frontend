@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import CustomInput from "@/components/commonComponents/TextInput/TextInput";
 import CustomTextArea from "@/components/commonComponents/TextArea/TextArea";
 import CustomButton from "@/components/commonComponents/Button/Button";
 import Container from "@/components/commonComponents/Container/Container";
-import { isValid, stateOptions, woodMeasurementScales } from "@/utils/common-utils";
+import {
+  isValid,
+  stateOptions,
+  woodMeasurementScales,
+} from "@/utils/common-utils";
 import GlobalDropdown from "@/components/commonComponents/GlobalDropdown/GlobalDropdown";
 import PlusIcon from "@/components/icons/PlusIcon";
 import CrossIcon from "@/components/icons/CrossArrowIcon";
 import { Button } from "@nextui-org/react";
+import numWords from "num-words"; // Import num-words library
 
 const InvoiceFormWrapper = ({
   onSubmit,
@@ -22,15 +27,37 @@ const InvoiceFormWrapper = ({
     control,
     name: "products",
   });
+
+  const products = watch("products");
+
+  const [totals, setTotals] = useState({ subtotal: 0, gst: 0, grandTotal: 0 });
+
+  const calculateTotals = () => {
+    let subtotal = 0;
+    let gst = 0;
+    products.forEach((product) => {
+      const qty = parseFloat(product.qty) || 0;
+      const price = parseFloat(product.price) || 0;
+      const gstPercentage = parseFloat(product.gstPercentage) || 0;
+
+      const productSubtotal = qty * price;
+      const productGST = (productSubtotal * gstPercentage) / 100;
+
+      subtotal += productSubtotal;
+      gst += productGST;
+    });
+
+    const grandTotal = subtotal + gst;
+    setTotals({ subtotal, gst, grandTotal });
+  };
+
   return (
     <div className="p-6">
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
         <h2 className="text-xl font-bold">Invoice Form</h2>
         <Container>
-         
-
           <div className="grid grid-cols-3 gap-2">
-          <div className="flex-1">
+            <div className="flex-1">
               <Controller
                 name="invoiceNumber"
                 control={control}
@@ -400,7 +427,7 @@ const InvoiceFormWrapper = ({
                       render={({ field }) => (
                         <GlobalDropdown
                           field={field}
-                          options={woodMeasurementScales} 
+                          options={woodMeasurementScales}
                           isMulti={false}
                           placeholder="Select Unit"
                           label="Unit"
@@ -436,30 +463,92 @@ const InvoiceFormWrapper = ({
 
               <div className="flex justify-end w-100 mb-4">
                 {fields.length > 1 && (
-                 
-                      <Button  className="mt-2" onClick={() => remove(index)} color="danger" variant="bordered" startContent={ <CrossIcon /> }>
-                      Remove Entry
-                    </Button>
+                  <Button
+                    className="mt-2"
+                    onClick={() => remove(index)}
+                    color="danger"
+                    variant="bordered"
+                    startContent={<CrossIcon />}
+                  >
+                    Remove Entry
+                  </Button>
                 )}
               </div>
             </div>
           ))}
-           <Button color="primary" variant="shadow"  className="mt-6"
-            onClick={() =>
-              append({
-                hsnCode: "",
-                gstPercentage: "",
-                productName: "",
-                totalPieces: "",
-                productDescription: "",
-                qty: "",
-                state: "",
-                price: "",
-              })
-            }>
-       <PlusIcon fill={"#fff"}/> Add more
-      </Button>  
-          
+
+          <div className="flex justify-between items-center">
+            {" "}
+            <Button
+              color="primary"
+              variant="shadow"
+              className="mt-6"
+              onClick={() =>
+                append({
+                  hsnCode: "",
+                  gstPercentage: "",
+                  productName: "",
+                  totalPieces: "",
+                  productDescription: "",
+                  qty: "",
+                  state: "",
+                  price: "",
+                })
+              }
+            >
+              <PlusIcon fill={"#fff"} /> Add more
+            </Button>
+            <Button color="secondary" variant="flat" onClick={calculateTotals}>
+              Calculate Totals
+            </Button>
+          </div>
+
+          <div className="mt-6 flex justify-end">
+            <div className="p-4 border border-gray-1 rounded-lg shadow-sm bg-lite-bg">
+              <div className="text-lg font-semibold text-gray-800">
+                <div className="grid grid-cols-2 gap-2">
+                  <p>Subtotal:</p>
+                  <p className="text-right font-bold">
+                    ₹ {totals.subtotal.toFixed(2)}
+                  </p>
+                  <p>GST:</p>
+                  <p className="text-right font-bold">
+                    ₹ {totals.gst.toFixed(2)}
+                  </p>
+                  <p>Grand Total:</p>
+                  <p className="text-right text-xl font-bold text-blue-600">
+                    ₹ {totals.grandTotal.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <div className="flex-1">
+              <Controller
+                name="TotalProductPieces"
+                control={control}
+                rules={{ required: "Total Product Pieces is required" }}
+                render={({ field }) => (
+                  <CustomInput
+                    type="number"
+                    label="Total Product Pieces"
+                    placeholder="Enter Total Total Product Pieces"
+                    labelPlacement="outside"
+                    isInvalid={!!errors?.TotalProductPieces}
+                    errorMessage={errors?.TotalProductPieces?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+            <div className="flex-1  mt-8">
+              <p className="col-span-2 text-right text-sm italic">
+                {/* (In words: {numWords(totals.grandTotal)} only) */}
+              </p>
+            </div>
+          </div>
         </Container>
 
         <Container>
@@ -501,8 +590,8 @@ const InvoiceFormWrapper = ({
               />
             </div>
           </div>
-         <div className="grid grid-cols-2 gap-2 mt-4">
-         <div className="flex-1">
+          <div className="grid grid-cols-2 gap-2 mt-4">
+            <div className="flex-1">
               <Controller
                 name="ewayBillNumber"
                 control={control}
@@ -520,9 +609,8 @@ const InvoiceFormWrapper = ({
                 )}
               />
             </div>
-         </div>
-       
-        </Container>      
+          </div>
+        </Container>
 
         {/* Submit Button */}
         <CustomButton

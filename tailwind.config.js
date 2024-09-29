@@ -30,6 +30,7 @@ module.exports = {
       "blue-2": "#4944E6",
       "blue-3": "#1E5EFF", //* Mostly used
       "green-1": "#1FD286",
+      "lite-bg": "#ecf2eb",
       premium1: "#FFEFD6",
       premiumText1: "#F99600",
       parts1: "#0D2039",

@@ -17,6 +17,7 @@ const EditInvoice = ({ params }) => {
     control,
     formState: { errors },
     reset,
+    watch,
   } = useForm({
     defaultValues: {},
   });
@@ -58,6 +59,7 @@ const EditInvoice = ({ params }) => {
         handleSubmit={handleSubmit}
         control={control}
         errors={errors}
+        watch={watch}
       />
     </>
   );
