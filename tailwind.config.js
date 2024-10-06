@@ -42,10 +42,14 @@ module.exports = {
       mainContainer: "rgba(207, 214, 150, 0.2)",
     },
     extend: {
+      borderWidth: {
+        '0.5': '0.5px'
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+
       },
       // background: {
       //   premium: "#FFEFD6",

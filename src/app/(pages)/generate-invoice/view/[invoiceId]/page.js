@@ -13,7 +13,7 @@ import html2pdf from "html2pdf.js";
 import { Button } from "@nextui-org/react";
 import Container from "@/components/commonComponents/Container/Container";
 import { QRCode } from "react-qrcode-logo";
-
+import "./style.css";
 const ViewInvoice = ({ params }) => {
   const router = useRouter();
 
@@ -78,14 +78,17 @@ const ViewInvoice = ({ params }) => {
   };
 
   const handleDownloadPdf = () => {
-    const invoiceElement = document.getElementById("invoice"); // The part of the page to convert to PDF
-    html2pdf(invoiceElement, {
-      margin: 1,
+    const element = document.getElementById("invoice"); // Ensure this is the correct ID
+    const opt = {
+      margin: 0.5,
       filename: `Invoice_${invoice?.invoiceNumber}.pdf`,
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-    });
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, logging: true, letterRendering: true },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+    html2pdf().set(opt).from(element).save();
   };
+
   const invoiceUrl = `https://shaikhconnect.com/invoice/${invoice?._id}`;
   return (
     <>
@@ -97,56 +100,38 @@ const ViewInvoice = ({ params }) => {
         {/* Header */}
 
         <Container>
-          <Container className="">
-            <div>
-              <div className="flex justify-between items-center">
-                {/* Logo on the Left */}
-                <div className="flex items-center">
-                  <img src="/favicon.png" alt="Logo" className="h-full" />
-                </div>
-
-                {/* Company Info Centered */}
-                <div className="h-[8vh] flex flex-col justify-center items-center flex-grow">
-                  <h1 className="text-4xl font-bold">SHAIKH UNITED GROUP</h1>
-                  <p className="text-lg italic mt-2">
-                    ALL TYPES OF WOOD & FURNITURE SUPPLIERS
-                  </p>
-                </div>
-
-                {/* QR Code on the Right */}
-                {/* Uncomment and modify the following section if you need to display a QR code as well */}
-                {/* <div className="text-right">
-      <QRCode
-        value={invoiceUrl}
-        size={128}
-        logoImage="/logo.png" // Optional logo
-        logoWidth={32}
-        logoHeight={32}
-      />
-    </div> */}
+          <div>
+            <div className="flex justify-between items-center h-10 p-2">
+              {/* Logo on the Left */}
+              <div className="flex items-center">
+                <img src="/favicon.png" alt="Logo" className="h-[80px]" />
               </div>
-            </div>
-          </Container>
-          <div className="flex justify-between my-6 border-b border-gray-1">
-            <div>
-              <h3 className="text-lg font-bold">Vehical Details:</h3>
-              <p>Vehical number: {invoice?.truckNumber}</p>
-              <p>Driver Name: {invoice?.driverName}</p>
-              <p>E-way number: {invoice?.ewayBillNumber}</p>
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold">Invoice</h2>
-              <p>Invoice No: {invoice?.invoiceNumber}</p>
-              <p>
-                Invoice Date:{" "}
-                {new Date(invoice?.invoiceDate).toLocaleDateString()}
-              </p>
-              <p>Due Date: {new Date(invoice?.dueDate).toLocaleDateString()}</p>
+
+              {/* Company Info Centered */}
+              <div className=" flex flex-col justify-center items-center flex-grow">
+                <h1 className="text-2xl font-bold">SHAIKH UNITED GROUP</h1>
+                <p className="text-xs italic mt-2">
+                  ALL TYPES OF WOOD & FURNITURE SUPPLIERS
+                </p>
+                <p className="text-xs flex justify-end w-full mt-4 text-success">INVOICE ID: {invoice?._id}</p>
+              </div>
+
+              {/* <div className="text-right h-15 w-5">
+                  <QRCode
+                    value={invoiceUrl}
+                    size={128}
+                    logoImage="/logo.png"
+                    logoWidth={32}
+                    logoHeight={32}
+                  />
+                </div> */}
             </div>
           </div>
-          <div className="flex justify-between">
+          <hr className="mb-2 mt-8 text-gray-1" />
+
+          <div className="flex justify-between text-xs">
             <div>
-              <h3 className="font-bold text-lg">Bill From:</h3>
+              <h3 className="font-bold">Bill From:</h3>
               <p>{invoice?.billFrom?.name}</p>
               <p>{invoice?.billFrom?.companyName}</p>
               <p>Office: 1st floor, Happy house</p>
@@ -158,7 +143,7 @@ const ViewInvoice = ({ params }) => {
               <p>GSTIN: 27DTBPA7699A1ZP</p>
             </div>
             <div>
-              <h3 className="font-bold text-lg">Bill To:</h3>
+              <h3 className="font-bold ">Bill To:</h3>
               <p>{invoice?.clientName}</p>
               <p>{invoice?.companyName}</p>
               <p>{invoice?.companyAddress}</p>
@@ -167,58 +152,59 @@ const ViewInvoice = ({ params }) => {
               </p>
               <p>GSTIN: {invoice?.gstin}</p>
             </div>
+            <div>
+              <h2 className="text-xl font-bold">Invoice</h2>
+              <p>Invoice No: {invoice?.invoiceNumber}</p>
+              <p>
+                Invoice Date:{" "}
+                {new Date(invoice?.invoiceDate).toLocaleDateString()}
+              </p>
+              <p>Due Date: {new Date(invoice?.dueDate).toLocaleDateString()}</p>
+            </div>
           </div>
+          <hr className="my-4 text-gray-1" />
 
-          <h3 className="font-bold text-lg mt-10 mb-2">Product Details:</h3>
-          <table className="w-full border-collapse bg-white mb-10 border border-gray-2 rounded-lg overflow-hidden">
-            <thead>
-              <tr className="bg-gray-2 text-white">
-                <th className="border p-2">S.No</th>{" "}
-                {/* Serial Number Header */}
-                <th className="border p-2">HSN Code</th>
-                <th className="border p-2">Description</th>
-                <th className="border p-2">Qty in CBM</th>
-                <th className="border p-2">Price (₹)</th>
-                <th className="border p-2">Total (₹)</th>
+          <h3 className="font-bold text-xs mt-2 mb-2 flex justify-start">Product Details:</h3>
+          <table className="table-thin-border">
+            <thead className="heading">
+              <tr >
+                <th>S.No</th> {/* Serial Number Header */}
+                <th>HSN Code</th>
+                <th>Description</th>
+                <th>Qty in CBM</th>
+                <th>Price (₹)</th>
+                <th>Total (₹)</th>
               </tr>
             </thead>
             <tbody>
               {invoice?.products.map((product, index) => (
-                <tr key={product._id} className="bg-light-blue">
-                  <td className="border border-gray-1 p-2">{index + 1}</td>{" "}
-                  {/* Serial Number */}
-                  <td className="border border-gray-1 p-2">
-                    {product.hsnCode}
-                  </td>
-                  <td className="border border-gray-1 p-2">
-                    {product.productDescription}
-                  </td>
-                  <td className="border border-gray-1 p-2">{product.qty}</td>
-                  <td className="border border-gray-1 p-2">{product.price}</td>
-                  <td className="border border-gray-1 p-2">
-                    {(product.qty * product.price).toFixed(2)}
-                  </td>
+                <tr key={product._id}>
+                  <td>{index + 1}</td> {/* Serial Number */}
+                  <td>{product.hsnCode}</td>
+                  <td>{product.productDescription}</td>
+                  <td>{product.qty}</td>
+                  <td>{product.price}</td>
+                  <td>{(product.qty * product.price).toFixed(2)}</td>
                 </tr>
               ))}
-              <tr className="bg-light-blue">
-                <td className="border border-gray-1 p-2">&nbsp;</td>
-                <td className="border border-gray-1 p-2">&nbsp;</td>
-                <td className="border border-gray-1 p-2">&nbsp;</td>
-                <td className="border border-gray-1 p-2">&nbsp;</td>
-                <td className="border border-gray-1 p-2">&nbsp;</td>
-                <td className="border border-gray-1 p-2">&nbsp;</td>
+              <tr>
+                <td colSpan="1">&nbsp;</td>
+                <td colSpan="1">&nbsp;</td>
+                <td colSpan="1">&nbsp;</td>
+                <td colSpan="1">&nbsp;</td>
+                <td colSpan="1">&nbsp;</td>
+                <td colSpan="1">&nbsp;</td>
               </tr>
             </tbody>
           </table>
 
           {/* Subtotal, GST, and Total Calculation */}
-          <div className="flex justify-between my-10">
+          <div className="flex justify-between my-2 text-xs">
             <div>
-              <h3 className="text-lg font-bold">Bank Details:</h3>
-              <p>Beneficiary Name: SHAIKH UNITED GROUP</p>
-              <p>Account Number: 50200052201980</p>
-              <p>Bank Name & Branch: HDFC / GANGAKHED</p>
-              <p>IFSC Code: HDFC0003015</p>
+              <h3 className="text-xm font-bold">Vehical Details:</h3>
+              <p>Vehical number: {invoice?.truckNumber}</p>
+              <p>Driver Name: {invoice?.driverName}</p>
+              <p>E-way number: {invoice?.ewayBillNumber}</p>
             </div>
             <div className="w-1/3">
               <div className="flex justify-between">
@@ -230,65 +216,71 @@ const ViewInvoice = ({ params }) => {
                 <p>₹{gstAmount.toFixed(2)}</p>
               </div>
               <div className="flex justify-between">
-                <p className="font-bold">Total:</p>
+                <p className="font-bold">Total Amount:</p>
                 <p className="font-bold">₹{totalAmount.toFixed(2)}</p>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-between my-10"></div>
-          <div className="mb-6">
-            <div className="flex flex-col text-gray-2 my-2">
-              <p className="text-sm">Contact: 9881649776</p>
-              <p className="text-sm">Contact: 9881649776</p>
-              <p className="text-sm">Email: SUGroupEmail@gmail.com</p>
-              <p className="text-sm">Website: www.SUGroups.com</p>
+          <hr className="text-gray-1 my-4" />
+          <div className="flex flex-row-reverse space-x-4 space-x-reverse gap-[10vw] text-xs">
+            <div className="flex flex-col">
+              <p className="font-bold">Authorised By</p>
+              <p>SHAIKH UNITED GROUP</p>
             </div>
-            <h3 className="text-lg font-bold">Terms and Conditions:</h3>
-            <p>
-              1. Payment is due within 15 days of the invoice date unless
-              otherwise agreed in writing.
-            </p>
-            <p>
-              2. Late payments will incur a late fee of 2% of the outstanding
-              balance per week.
-            </p>
-            <p>
-              3. The goods supplied will remain the property of SHAIKH UNITED
-              GROUP until full payment has been received.
-            </p>
-            <p>
-              4. All goods are carefully inspected before delivery; however, any
-              damages or discrepancies must be reported within 3 days of
-              receipt.
-            </p>
-            <p>
-              5. Any cancellation of orders must be communicated in writing 7
-              days prior to the scheduled delivery.
-            </p>
-            <p>
-              6. We reserve the right to delay or cancel delivery if unforeseen
-              circumstances (e.g., supply chain issues, weather conditions)
-              occur.
-            </p>
-            <p>
-              7. Prices are subject to change without notice, depending on
-              market conditions and material availability.
-            </p>
-            <p>
-              8. All dimensions, weights, and quantities stated are approximate
-              and may vary slightly.
-            </p>
-            <p>
-              9. Any legal disputes arising will be handled under the
-              jurisdiction of Parbhani, Maharashtra.
-            </p>
+            <div className="flex flex-col">
+              <p className="font-bold">Client</p>
+              <p>{invoice?.companyName}</p>
+            </div>
           </div>
-
-          {/* Footer */}
-          <div className="text-center mt-6">
+          <div className="flex justify-center text-xs mt-2">
             <p>
               This is a computer-generated invoice, no signature is required.
+            </p>
+          </div>
+          <hr className="my-4 text-gray-1" />
+          <div className="mb-6 text-xs">
+            <div className="flex justify-between my-2">
+              <div>
+                <label className="text-black font-bold">
+                  Feel free to contact us:
+                </label>
+                <p className="text-xs">Contact: 9881649776</p>
+                <p className="text-xs">Email: SUGroupEmail@gmail.com</p>
+                <p className="text-xs">Website: www.SUGroups.com</p>
+              </div>
+
+              <div>
+                <h3 className="text-black font-bold">Bank Details:</h3>
+                <p>Beneficiary Name: SHAIKH UNITED GROUP</p>
+                <p>Account Number: 50200052201980</p>
+                <p>Bank Name & Branch: HDFC / GANGAKHED</p>
+                <p>IFSC Code: HDFC0003015</p>
+              </div>
+            </div>
+
+            <hr className="text-gray-1 my-4" />
+            <h3 className="text-xs font-bold text-pretty">
+              Terms and Conditions:
+            </h3>
+            <p className="text-xs text-gray-2 text-pretty">
+              * Payments are due within 15 days of the invoice date, with a 2%
+              weekly late fee on overdue balances. Full ownership of goods
+              remains with SHAIKH UNITED GROUP until payment is fully cleared.
+            </p>
+            <p className="text-xs text-gray-2 text-pretty">
+              * Goods must be inspected within 3 days of delivery for any
+              discrepancies. Cancellations require a written notice 7 days
+              before the scheduled delivery. Deliveries may be delayed or
+              canceled due to unforeseen circumstances without liability.
+            </p>
+            <p className="text-xs text-gray-2 text-pretty">
+              * Prices and specifications, including dimensions and weights, are
+              subject to change based on market conditions without prior notice.
+            </p>
+            <p className="text-xs text-gray-2 text-pretty">
+              * All disputes will be governed under the jurisdiction of
+              Parbhani, Maharashtra.
             </p>
           </div>
         </Container>

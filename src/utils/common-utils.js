@@ -112,3 +112,9 @@ export const woodMeasurementScales = [
   { label: "Metric Tons (t)", value: "ton" },
   { label: "Pounds (lb)", value: "lb" },
 ];
+export const statusOptions = [
+  { label: "In-Progress", value: "In-Progress" },
+  { label: "Delivered", value: "Delivered" },
+  { label: "Pending", value: "Pending" },
+  { label: "Cancelled", value: "Cancelled" },
+];

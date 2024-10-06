@@ -28,7 +28,11 @@ const EditInvoice = ({ params }) => {
 
   useEffect(() => {
     if (invoiceData && invoiceData?.invoice) {
-      reset({ ...invoiceData?.invoice });
+      reset({
+        ...invoiceData?.invoice,
+        invoiceDate: invoiceData.invoice.invoiceDate.split("T")[0], // '2024-09-26T00:00:00.000Z' se '2024-09-26' banega
+        dueDate: invoiceData.invoice.dueDate.split("T")[0],
+      });
     }
   }, [invoiceData, reset]);
 
@@ -54,12 +58,13 @@ const EditInvoice = ({ params }) => {
   return (
     <>
       <InvoiceFormWrapper
-        mode={"create"}
+        mode={"edit"}
         onSubmit={onSubmit}
         handleSubmit={handleSubmit}
         control={control}
         errors={errors}
         watch={watch}
+        isLoading={loadingById}
       />
     </>
   );

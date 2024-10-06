@@ -2,18 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import CustomInput from "@/components/commonComponents/TextInput/TextInput";
 import CustomTextArea from "@/components/commonComponents/TextArea/TextArea";
-import CustomButton from "@/components/commonComponents/Button/Button";
 import Container from "@/components/commonComponents/Container/Container";
 import {
   isValid,
   stateOptions,
+  statusOptions,
   woodMeasurementScales,
 } from "@/utils/common-utils";
 import GlobalDropdown from "@/components/commonComponents/GlobalDropdown/GlobalDropdown";
 import PlusIcon from "@/components/icons/PlusIcon";
 import CrossIcon from "@/components/icons/CrossArrowIcon";
-import { Button } from "@nextui-org/react";
+import { Button, Select } from "@nextui-org/react";
 import numWords from "num-words"; // Import num-words library
+import { useRouter } from "next/navigation";
+import { TbTruckDelivery } from "react-icons/tb";
+import { MdAddShoppingCart, MdCalculate } from "react-icons/md";
+import { IoArrowBackCircle } from "react-icons/io5";
+import { IoIosRemoveCircle, IoMdRemoveCircleOutline } from "react-icons/io";
 
 const InvoiceFormWrapper = ({
   onSubmit,
@@ -22,12 +27,13 @@ const InvoiceFormWrapper = ({
   errors,
   watch,
   mode,
+  isLoading,
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "products",
   });
-
+  const router = useRouter();
   const products = watch("products");
 
   const [totals, setTotals] = useState({ subtotal: 0, gst: 0, grandTotal: 0 });
@@ -52,9 +58,56 @@ const InvoiceFormWrapper = ({
   };
 
   return (
-    <div className="p-6">
+    <div className="px-24 mb-20">
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
-        <h2 className="text-xl font-bold">Invoice Form</h2>
+        <div className="w-full sticky z-[40] mt-5 flex justify-between my-6 items-center">
+          <label className="text-font24  leading-lineHeight36 font-bold flex-start">
+            {mode === "create"
+              ? "Create Delivery Routes"
+              : "Edit Delivery Routes"}
+          </label>
+          <div className="flex gap-3.5">
+            {mode === "edit" && (
+              <Controller
+                name="status"
+                control={control}
+                rules={false}
+                render={({ field }) => (
+                  <GlobalDropdown
+                    className="rounded-md"
+                    field={field}
+                    options={statusOptions}
+                    isMulti={false}
+                    placeholder="Status"
+                    name="status"
+                    labelStyle={"dropLabel"}
+                    errors={errors}
+                    required={false}
+                  />
+                )}
+              />
+            )}
+            {/* {errors.status && <p>{errors.status.message}</p>} */}
+            <Button
+              onClick={() => router.back()}
+              color="danger"
+              variant="bordered"
+            >
+              <IoArrowBackCircle />
+              Back
+            </Button>
+            <Button
+              loading={isLoading}
+              className=""
+              type="submit"
+              color="success"
+              variant="ghost"
+            >
+              Save
+              <TbTruckDelivery />
+            </Button>
+          </div>
+        </div>
         <Container>
           <div className="grid grid-cols-3 gap-2">
             <div className="flex-1">
@@ -115,7 +168,7 @@ const InvoiceFormWrapper = ({
           </div>
         </Container>
         <Container>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-3">
             <div className="flex-1">
               <Controller
                 name="clientName"
@@ -156,8 +209,6 @@ const InvoiceFormWrapper = ({
                 )}
               />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
             <div className="flex-1">
               <Controller
                 name="gstin"
@@ -178,6 +229,8 @@ const InvoiceFormWrapper = ({
                 )}
               />
             </div>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
             <div className="flex-1">
               <Controller
                 name="companyAddress"
@@ -198,8 +251,6 @@ const InvoiceFormWrapper = ({
                 )}
               />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
             <div className="flex-1">
               <Controller
                 name="street"
@@ -244,7 +295,8 @@ const InvoiceFormWrapper = ({
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+
+          <div className="grid grid-cols-3 gap-2">
             <div className="flex-1">
               <Controller
                 name="pinCode"
@@ -293,7 +345,7 @@ const InvoiceFormWrapper = ({
 
         <Container>
           {fields.map((item, index) => (
-            <div className="border-b-2 border-b-gray-1">
+            <div className="">
               <div key={item.id} className="grid grid-cols-2 gap-4 mb-4">
                 <div className="flex-1">
                   <Controller
@@ -461,71 +513,23 @@ const InvoiceFormWrapper = ({
                 </div>
               </div>
 
-              <div className="flex justify-end w-100 mb-4">
+              <div className="flex justify-end w-100 ">
                 {fields.length > 1 && (
                   <Button
                     className="mt-2"
                     onClick={() => remove(index)}
-                    color="danger"
-                    variant="bordered"
-                    startContent={<CrossIcon />}
+                    color="warning"
+                    variant="ghost"
                   >
+                    <IoIosRemoveCircle />
                     Remove Entry
                   </Button>
                 )}
               </div>
             </div>
           ))}
-
-          <div className="flex justify-between items-center">
-            {" "}
-            <Button
-              color="primary"
-              variant="shadow"
-              className="mt-6"
-              onClick={() =>
-                append({
-                  hsnCode: "",
-                  gstPercentage: "",
-                  productName: "",
-                  totalPieces: "",
-                  productDescription: "",
-                  qty: "",
-                  state: "",
-                  price: "",
-                })
-              }
-            >
-              <PlusIcon fill={"#fff"} /> Add more
-            </Button>
-            <Button color="secondary" variant="flat" onClick={calculateTotals}>
-              Calculate Totals
-            </Button>
-          </div>
-
-          <div className="mt-6 flex justify-end">
-            <div className="p-4 border border-gray-1 rounded-lg shadow-sm bg-lite-bg">
-              <div className="text-lg font-semibold text-gray-800">
-                <div className="grid grid-cols-2 gap-2">
-                  <p>Subtotal:</p>
-                  <p className="text-right font-bold">
-                    ₹ {totals.subtotal.toFixed(2)}
-                  </p>
-                  <p>GST:</p>
-                  <p className="text-right font-bold">
-                    ₹ {totals.gst.toFixed(2)}
-                  </p>
-                  <p>Grand Total:</p>
-                  <p className="text-right text-xl font-bold text-blue-600">
-                    ₹ {totals.grandTotal.toFixed(2)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 items-center">
-            <div className="flex-1">
+          <div className="grid grid-cols-2 gap-2 items-center border-b-2 border-b-gray-1">
+            <div className="flex-1 mb-4">
               <Controller
                 name="TotalProductPieces"
                 control={control}
@@ -543,16 +547,67 @@ const InvoiceFormWrapper = ({
                 )}
               />
             </div>
-            <div className="flex-1  mt-8">
-              <p className="col-span-2 text-right text-sm italic">
-                {/* (In words: {numWords(totals.grandTotal)} only) */}
-              </p>
+          </div>
+
+          <div className="flex justify-between items-center">
+            {" "}
+            <Button
+              color="primary"
+              variant="light"
+              className="mt-6 border-none"
+              onClick={() =>
+                append({
+                  hsnCode: "",
+                  gstPercentage: "",
+                  productName: "",
+                  totalPieces: "",
+                  productDescription: "",
+                  qty: "",
+                  state: "",
+                  price: "",
+                })
+              }
+            >
+              <MdAddShoppingCart />
+              Add more
+            </Button>
+            <div className="mt-6 flex justify-end">
+              <div className="p-4 border border-gray-1 rounded-lg shadow-sm bg-lite-bg">
+                <div className="text-lg font-semibold text-gray-800">
+                  <div className="grid grid-cols-2 gap-2">
+                    <p>Subtotal:</p>
+                    <p className="text-right font-bold">
+                      ₹ {totals.subtotal.toFixed(2)}
+                    </p>
+                    <p>GST:</p>
+                    <p className="text-right font-bold">
+                      ₹ {totals.gst.toFixed(2)}
+                    </p>
+                    <p>Grand Total:</p>
+                    <p className="text-right text-xl font-bold text-blue-600">
+                      ₹ {totals.grandTotal.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          <div className="w-full flex justify-end mt-2">
+            <Button
+              color="secondary"
+              variant="ghost"
+              className="w-[16.5vw]"
+              onClick={calculateTotals}
+              radius="none"
+            >
+              <MdCalculate />
+              Calculate Totals
+            </Button>
           </div>
         </Container>
 
         <Container>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-3">
             <div className="flex-1">
               <Controller
                 name="truckNumber"
@@ -589,8 +644,6 @@ const InvoiceFormWrapper = ({
                 )}
               />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-2 mt-4">
             <div className="flex-1">
               <Controller
                 name="ewayBillNumber"
@@ -610,15 +663,19 @@ const InvoiceFormWrapper = ({
               />
             </div>
           </div>
+          <div className="grid grid-cols-2 gap-2 mt-4"></div>
         </Container>
 
         {/* Submit Button */}
-        <CustomButton
+        <Button
           type="submit"
-          className="bg-primaryBtn text-white py-2 px-7"
+          color="success"
+          variant="ghost"
+          className="text-xl hover h-[70px] py-2 px-7 w-full "
         >
           Submit Invoice
-        </CustomButton>
+          <TbTruckDelivery />
+        </Button>
       </form>
     </div>
   );

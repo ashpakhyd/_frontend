@@ -14,6 +14,19 @@ export const SidebarRoutes = [
     isDropdown: false,
   },
   {
+    title: "BILLING",
+    icon: <FaFileInvoiceDollar />,
+    path: "/generate-invoice",
+    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
+    isDropdown: true,
+    children: [
+      {
+        title: "Generate Invoice",
+        path: "/generate-invoice/create",
+      },
+    ],
+  },
+  {
     title: "INVENTORY",
     icon: <FaWarehouse />,
     path: "/inventory",
@@ -55,19 +68,6 @@ export const SidebarRoutes = [
     title: "PRODUCTS",
     icon: <FaCogs />,
     path: "/products",
-  },
-  {
-    title: "BILLING",
-    icon: <FaFileInvoiceDollar />,
-    path: "/generate-invoice",
-    query: { limit: 10, page: 1, sortField: "createdAt", sortOrder: "DESC" },
-    isDropdown: true,
-    children: [
-      {
-        title: "Generate Invoice",
-        path: "/generate-invoice/create",
-      },
-    ],
   },
   {
     title: "REPORTS",

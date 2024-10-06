@@ -1,0 +1,65 @@
+@media print {
+    body {
+      width: 210mm; /* A4 width */
+      height: 297mm; /* A4 height */
+      margin: 0 auto;
+      box-shadow: none;
+      background: none;
+      overflow: hidden;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+    #invoice {
+        box-sizing: border-box;
+        max-width: 210mm; 
+        padding: 2mm;
+        font-size: 11px; 
+        word-wrap: break-word;
+   
+      }
+      
+ }
+ p, h1, h2, h3, h4, h5, h6, td, th {
+    text-align: center;
+}
+
+
+/* Overall table styles */
+.table-thin-border {
+    width: 100%;
+    background-color: white;
+    margin-bottom: 2px;
+    border-collapse: collapse;
+    border: 1px solid black;
+    border-radius: 2px;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+/* Header row and cell styles */
+.table-thin-border thead tr, 
+.table-thin-border th, 
+.table-thin-border td {
+    border: 1px solid black;
+    padding: 2px;
+    background-color: #ffffff;  /* Adjust color as needed */
+    color: rgb(0, 0, 0);
+}
+
+/* Body rows and cells */
+.table-thin-border tbody tr, 
+.table-thin-border tbody td {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+/* Adjust the background color for rows in tbody if needed */
+.table-thin-border tbody tr {
+    background-color: white;
+}
+.heading{
+    background-color: aquamarine;
+}

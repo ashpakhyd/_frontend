@@ -90,6 +90,7 @@ console.log("gatData", gstData)
          errors={errors}
          watch={watch}
          getValues={getValues}
+         isLoading={isLoading}
       />
     </>
   );
