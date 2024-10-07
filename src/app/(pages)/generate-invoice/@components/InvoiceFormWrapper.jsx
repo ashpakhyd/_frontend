@@ -345,8 +345,8 @@ const InvoiceFormWrapper = ({
 
         <Container>
           {fields.map((item, index) => (
-            <div className="">
-              <div key={item.id} className="grid grid-cols-2 gap-4 mb-4">
+            <div className="" key={index}>
+              <div  className="grid grid-cols-2 gap-4 mb-4">
                 <div className="flex-1">
                   <Controller
                     name={`products[${index}].productName`}
