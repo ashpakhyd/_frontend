@@ -165,7 +165,7 @@ const ViewInvoice = ({ params }) => {
           <hr className="my-4 text-gray-1" />
 
           <h3 className="font-bold text-xs mt-2 mb-2 flex justify-start">Product Details:</h3>
-          <table className="table-thin-border">
+          <table className="table-thin-border ">
             <thead className="heading">
               <tr >
                 <th>S.No</th> {/* Serial Number Header */}

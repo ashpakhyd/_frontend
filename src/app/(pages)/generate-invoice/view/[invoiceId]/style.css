@@ -22,16 +22,14 @@
       }
       
  }
- p, h1, h2, h3, h4, h5, h6, td, th {
-    text-align: center;
-}
+
 
 
 /* Overall table styles */
 .table-thin-border {
     width: 100%;
     background-color: white;
-    margin-bottom: 2px;
+    /* margin-bottom: 2px; */
     border-collapse: collapse;
     border: 1px solid black;
     border-radius: 2px;
@@ -45,6 +43,7 @@
 .table-thin-border td {
     border: 1px solid black;
     padding: 2px;
+    padding-bottom: 5px;
     background-color: #ffffff;  /* Adjust color as needed */
     color: rgb(0, 0, 0);
 }

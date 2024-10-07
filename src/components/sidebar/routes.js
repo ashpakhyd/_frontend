@@ -9,7 +9,7 @@ export const SidebarRoutes = [
   {
     title: "ORDERS",
     icon: <FaBoxOpen />,
-    path: "/orders",
+    path: "/test",
     query: { limit: 10, page: 1, sortField: "orderDate", sortOrder: "DESC" },
     isDropdown: false,
   },
