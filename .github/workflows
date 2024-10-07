@@ -1,0 +1,29 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Deploy to EC2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.AWS_EC2_HOST }}
+        username: ${{ secrets.AWS_EC2_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        source: ".next,public,package.json"
+        target: "/path/to/your/ec2/app/folder"
